@@ -12,7 +12,7 @@
 ####Plugins used
   browserSync
   
-*watch task watches for any changes in html file in src directory
-*if there is a change ,then copy task is called
-*copy task copies html files from src to dist
-*Since html file at dist changes watch task defined in serve task reloads the browser
+* watch task watches for any changes in html file in src directory
+* if there is a change ,then copy task is called
+* copy task copies html files from src to dist
+* Since html file at dist changes watch task defined in serve task reloads the browser
