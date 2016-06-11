@@ -4,6 +4,8 @@
 		<meta name="viewport" content="width=device-width ,initial-scale=1">
 		<title>Neighbourhood Map</title>
 		<link rel="stylesheet"  href="css/bootstrap.min.css">
+		<link rel="stylesheet"  href="css/style.css">
+
 	</head>
 	<body>
 		<div class="container">
@@ -16,9 +18,15 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-4">List</div>
-				<div class="col-xs-12 col-sm-8">Map</div>
+				<div class="col-xs-12 col-sm-4">List view</div>
+				<div class="col-xs-12 col-sm-8" id ="map">Map</div>
 			</div>
 		</div>
+			<script src="js/app.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+    async defer></script>
+
+		<script src="js/knockout.js"></script>
 	</body>
 </html>
