@@ -1,22 +1,20 @@
 // var locations=['mumbai','delhi','kochi','chennai'];
-
 // global map variable
 var map;
 console.log("map map map map");
 
 //  function initialize gets called when page gets loaded
- var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
-      }
+var map;
 
-//set boundary based on pin locations
-// window.mapBounds = new google.maps.LatLngBounds();
+function initMap() {
+    console.log("init map called");
+    map = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: {
+            lat: -34.397,
+            lng: 150.644
+        },
+        zoom: 8
+    });
+}
 
-//fit map to bounds , bounds argument is from createMapMarkers 
-// map.fitBounds(bounds) 
-
-
+window.addEventListener('load', initMap);
