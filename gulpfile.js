@@ -22,12 +22,10 @@ gulp.task('serve',function(){
 	browserSync.init({
         server: "./src"
     });
-//watch index file
-    // gulp.watch('src/*.html').on('change', browserSync.reload);
-    // if html files changes copy task is called
-	gulp.watch('src/*.html',['html-watch']);
+// if html files changes copy task is called
+gulp.watch('src/*.html',['html-watch']);
 //watch js files and calls js-watch
-	gulp.watch('src/js/*.js',['js-watch']);
+gulp.watch('src/js/*.js',['js-watch']);
 
 });
 
