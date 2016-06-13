@@ -18,7 +18,7 @@ function initMap() {
     console.log("init map calle");
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: myLatLng ,
-        zoom: 12
+        zoom: 10
     });
  	var marker = new google.maps.Marker({
     position: myLatLng,
@@ -52,9 +52,10 @@ function createMarker(place){
 
 function performSearch(){
 	console.log("perform search");
+	// console.log(data);
 	var request={
 		bounds : map.getBounds(),
-		name : "Park" 
+		name : MyVM.myquery()
 	}
 
 	services.nearbySearch(request, callback);
@@ -67,7 +68,8 @@ function callback(results,status) {
 	console.log(results);
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
-      createMarker(results[i]);
+    	MyVM.addItems(results[i].name);
+    	createMarker(results[i]);
     }
   }
 }

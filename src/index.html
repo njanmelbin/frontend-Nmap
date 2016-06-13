@@ -11,23 +11,26 @@
 		<div class="container">
 			<div class = "row">
 			    <div class="col-xs-8 ">
-					<input class="form-control">
+					<input class="form-control" data-bind="value: myquery">
 				</div>
 				<div class="col-xs-4">
-					<button type="button" class="btn btn-primary">Primary</button>
+					<button type="button" class="btn btn-primary" data-bind="click:filter">Primary</button>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-4">
 					<h2>List view</h2>
+					<ul data-bind="foreach:mylist">
+						<li data-bind="text:$data"></li>
+					</ul>
 				</div>
 				<div class="col-xs-12 col-sm-8 " id="map-canvas">Map</div>
 			</div>
 		</div>
 	<!-- <script src="js/jquery-min.js"></script> -->
-	<script src="js/app.js"></script>
-	<script src="js/map.js"></script>
+	<script src="js/knockout.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-    <script src="js/knockout.js"></script>
+    <script src="js/map.js"></script>
+	<script src="js/app.js"></script>
 	</body>
 </html>
