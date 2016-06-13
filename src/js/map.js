@@ -2,7 +2,7 @@
 // global map variable
 var map;
 console.log("map ");
-
+var markers=[];
 //  function initialize gets called when page gets loaded
 var infowindow;
 var myLatLng={
@@ -32,12 +32,14 @@ function initMap() {
 // a map marker gets created for a given lattitude and longitude
 // a infowindow is attached to the map marker
 // note that every object creationin map class takes options as arguments
-
+// pushes marker into markers arry
 function createMarker(place){
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location
   });
+
+  markers.push(marker);
 
   google.maps.event.addListener(marker, 'click', function() {
   	infowindow = new google.maps.InfoWindow({
@@ -48,9 +50,20 @@ function createMarker(place){
   });
 }
 
+// function to delete all Markers
+
+function DeleteMarkers() {
+	console.log("delete markers");
+        //Loop through all the markers and remove
+      for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers = [];
+    };
 //function to filter the results
 
 function performSearch(){
+	DeleteMarkers();
 	console.log("perform search");
 	// console.log(data);
 	var request={
