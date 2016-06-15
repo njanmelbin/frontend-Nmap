@@ -2,89 +2,118 @@
 // global map variable
 var map;
 console.log("map ");
-var markers=[];
+var markers = [];
 //  function initialize gets called when page gets loaded
+//new york coordinates -40.7128° N, 74.0059°
 var infowindow;
-var myLatLng={
-            lat: -34.397,
-            lng: 150.644
+var myLatLng = {
+    lat: 40.7128,
+    lng: -74.0059
 
 };
 
+//Foursquare API uses this
+var CLIENT_ID = "N0SQW20V1HZLIJ0SGCBP132CIEC55HKDR4KCX1LJ4U5YE3Q2";
+var CLIENT_SECRET = "WHVNHIRBFRTG20FQEITL2GAB1WFSXSAUEGA00ZHIBA5U4L1B";
+
 // function creates a map centered at given latitude and longitude
-// createMapMarker function gets called
+// perform search is called
 
 function initMap() {
     console.log("init map calle");
     map = new google.maps.Map(document.getElementById('map-canvas'), {
-        center: myLatLng ,
-        zoom: 10
+        center: myLatLng,
+        zoom: 13
     });
- 	var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map
+    var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map
     });
 
- 	services = new google.maps.places.PlacesService(map);
+    services = new google.maps.places.PlacesService(map);
 
- 	google.maps.event.addListenerOnce(map,'bounds_changed',performSearch);
+    google.maps.event.addListenerOnce(map, 'bounds_changed', performSearch);
 }
 // a map marker gets created for a given lattitude and longitude
 // a infowindow is attached to the map marker
-// note that every object creationin map class takes options as arguments
+// note that every object creationin map c lass takes options as arguments
 // pushes marker into markers arry
-function createMarker(place){
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location
-  });
+function createMarker(place) {
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+    // console.log(place.geometry.location);
+    markers.push(marker);
 
-  markers.push(marker);
+    //url for contacting the foursquare API  
+    var foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.geometry.location.lat() + ',' + place.geometry.location.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
+    // console.log(foursquare_url);
+    var contentString;
+    google.maps.event.addListener(marker, 'click', function() {
 
-  google.maps.event.addListener(marker, 'click', function() {
-  	infowindow = new google.maps.InfoWindow({
-  		content : place.name
-  	});
-  	// console.log(place.name);
-    infowindow.open(map, this);
-  });
+        $.ajax({
+            url: foursquare_url,
+            dataType: "json",
+            success: function(data) {
+                console.log(data.response.venues[0].name);
+                console.log(data.response.venues[0].location.address);
+                console.log(data.response.venues[0].location.city);
+                console.log(data.response.venues[0]);
+                contentString = '<h3>' + data.response.venues[0].name + '</h3>' +
+                    '<h4>' + data.response.venues[0].location.address + '</h4> ' +
+                    '<h4>' + data.response.venues[0].location.city + '</h4>';
+                console.log(contentString);
+                infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                infowindow.open(map, marker);
+
+
+            }
+        });
+        // console.log(contentString);
+
+        // console.log(place.name);
+    });
 }
 
 // function to delete all Markers
 
 function DeleteMarkers() {
-	console.log("delete markers");
-        //Loop through all the markers and remove
-      for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(null);
-        }
-        markers = [];
-    };
+    console.log("delete markers");
+    //Loop through all the markers and remove
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+};
+
 //function to filter the results
 
-function performSearch(){
-	DeleteMarkers();
-	console.log("perform search");
-	// console.log(data);
-	var request={
-		bounds : map.getBounds(),
-		name : MyVM.myquery()
-	}
+function performSearch() {
+    DeleteMarkers();
+    console.log("perform search");
+    // console.log(data);
+    var request = {
+        bounds: map.getBounds(),
+        name: MyVM.myquery()
+    }
 
-	services.nearbySearch(request, callback);
+    services.nearbySearch(request, callback);
 
 }
 
 // function to call on retrieval of results
 
-function callback(results,status) {
-	console.log(results);
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-    	MyVM.addItems(results[i].name);
-    	createMarker(results[i]);
+function callback(results, status) {
+    console.log(results);
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            MyVM.addItems(results[i].name);
+            createMarker(results[i]);
+        }
     }
-  }
 }
 
 // after the DOM is loaded initMap gets called

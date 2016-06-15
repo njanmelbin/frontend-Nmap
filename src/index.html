@@ -14,20 +14,20 @@
 					<input class="form-control" data-bind="value: myquery">
 				</div>
 				<div class="col-xs-4">
-					<button type="button" class="btn btn-primary" data-bind="click:filter">Primary</button>
+					<button type="button" class="btn btn-primary" data-bind="click:filter">Filter</button>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-4">
 					<h2>List view</h2>
 					<ul data-bind="foreach:mylist">
-						<li data-bind="text:$data"></li>
+						<li data-bind="text:$data,click:$parent.itemClicked.bind($data,$index())"></li>
 					</ul>
 				</div>
 				<div class="col-xs-12 col-sm-8 " id="map-canvas">Map</div>
 			</div>
 		</div>
-	<!-- <script src="js/jquery-min.js"></script> -->
+	<script src="js/jquery-min.js"></script>
 	<script src="js/knockout.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
     <script src="js/map.js"></script>

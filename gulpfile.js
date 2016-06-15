@@ -37,6 +37,8 @@ gulp.watch('src/*.html',['html-watch']);
 //watch js files and calls js-watch
 gulp.watch('src/js/*.js',['js-watch']);
 // =======================================
+// gulp.watch('src/js/*.js').on('change', browserSync.reload);
+
 });
 
 gulp.task('default',['serve']);
