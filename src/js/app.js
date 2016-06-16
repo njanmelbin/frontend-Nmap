@@ -9,22 +9,13 @@ var initialPlaces = {
 			} 	
 		},
 		"name" : "Acappella"
-	},{
-		"geometry" : {
-			"location" :{ 
-				"lat" : "40.715813",
-				"lng" : "-74.009433"
-			} 	
-		},
-		"name" : "Acappella"
-	}
-	]
+	}]
 }
 
 var Place = function(data){
-	console.log(data);
-   this.geometry.location.lat = ko.observable(data.geometry.location.lat);
-   this.geometry.location.lng = ko.observable(data.geometry.location.lng);
+   console.log(data);
+   this.lat = ko.observable(data.geometry.location.lat);
+   this.lng = ko.observable(data.geometry.location.lng);
    this.name = ko.observable(data.name);
 };
 
@@ -36,11 +27,20 @@ var ViewModel = function(){
     this.placeList = ko.observableArray([]);
 
     initialPlaces.places.forEach(function(placeitem){
-    	self.placeList.push(new Place(placeitem));
+    	var place=new Place(placeitem);
+    	self.placeList.push(place);
+    	console.log("inside initial push");
+    	createMarker(place);
     });
+
+    // add the objects u recieve from google nearbysearch to an observable array
+    this.addObjects = function(data){
+    	self.placeList.push(new Place(data));
+    }
 
 	this.addItems = function(data){
 		self.mylist.push(data);
+
 	}
 
 // when u type in new filter to search for and click filter button ,this function calls performSearch to search for keyword u typed

@@ -31,7 +31,7 @@ function initMap() {
     });
 
     services = new google.maps.places.PlacesService(map);
-
+    console.log("map created");
     // google.maps.event.addListenerOnce(map, 'bounds_changed', performSearch);
 }
 // a map marker gets created for a given lattitude and longitude
@@ -39,18 +39,20 @@ function initMap() {
 // note that every object creationin map c lass takes options as arguments
 // pushes marker into markers arry
 function createMarker(place) {
+
+    var mycor = new google.maps.LatLng(40.715813,-73.839638);
+    console.log(mycor);
     var marker = new google.maps.Marker({
-
-
-        map: map,
-        position: place.geometry.location
+        position: mycor,
+        map : map
     });
-    // console.log(place.geometry.location);
+    console.log("marker created");
+    console.log(marker);
     markers.push(marker);
 
     //url for contacting the foursquare API  
-    var foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.geometry.location.lat() + ',' + place.geometry.location.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
-    // console.log(foursquare_url);
+    var foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.lat() + ',' + place.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
+    console.log(foursquare_url);
     var contentString;
     google.maps.event.addListener(marker, 'click', function() {
 
@@ -116,7 +118,7 @@ function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
             MyVM.addItems(results[i].name);
-            createMarker(results[i]);
+            MyVM.addObjects(resulst[i]);
         }
     }
 }
