@@ -1,9 +1,43 @@
-// knockout.js code
+
+var initialPlaces = {
+	"places":
+	[{
+		"geometry" : {
+			"location" :{
+				"lat" : "40.715813",
+				"lng" : "-74.009433"
+			} 	
+		},
+		"name" : "Acappella"
+	},{
+		"geometry" : {
+			"location" :{ 
+				"lat" : "40.715813",
+				"lng" : "-74.009433"
+			} 	
+		},
+		"name" : "Acappella"
+	}
+	]
+}
+
+var Place = function(data){
+	console.log(data);
+   this.geometry.location.lat = ko.observable(data.geometry.location.lat);
+   this.geometry.location.lng = ko.observable(data.geometry.location.lng);
+   this.name = ko.observable(data.name);
+};
+
 var ViewModel = function(){
 	console.log("hai ");
 	var self =this;
-	this.myquery = ko.observable("Restaurant");
+	this.myquery = ko.observable();
 	this.mylist = ko.observableArray([]);
+    this.placeList = ko.observableArray([]);
+
+    initialPlaces.places.forEach(function(placeitem){
+    	self.placeList.push(new Place(placeitem));
+    });
 
 	this.addItems = function(data){
 		self.mylist.push(data);
@@ -14,7 +48,10 @@ var ViewModel = function(){
 		self.mylist.removeAll();
 		// console.log("filer results");
 		// console.log(this.myquery());
-		performSearch();
+		if(this.myquery()){
+			console.log("inside filter");
+			performSearch();
+		}
 	}
 
 	this.itemClicked =function(index){

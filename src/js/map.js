@@ -32,7 +32,7 @@ function initMap() {
 
     services = new google.maps.places.PlacesService(map);
 
-    google.maps.event.addListenerOnce(map, 'bounds_changed', performSearch);
+    // google.maps.event.addListenerOnce(map, 'bounds_changed', performSearch);
 }
 // a map marker gets created for a given lattitude and longitude
 // a infowindow is attached to the map marker
@@ -40,6 +40,8 @@ function initMap() {
 // pushes marker into markers arry
 function createMarker(place) {
     var marker = new google.maps.Marker({
+
+
         map: map,
         position: place.geometry.location
     });
@@ -70,6 +72,9 @@ function createMarker(place) {
                 infowindow.open(map, marker);
 
 
+            },
+            error : function(){
+                alert("Not able to reach Foursquare API");
             }
         });
         // console.log(contentString);
@@ -99,7 +104,7 @@ function performSearch() {
         bounds: map.getBounds(),
         name: MyVM.myquery()
     }
-
+    console.log(MyVM.myquery());
     services.nearbySearch(request, callback);
 
 }
