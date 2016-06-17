@@ -53,7 +53,7 @@ var Place = function(data){
 };
 
 var ViewModel = function(){
-	console.log("hai ");
+	// console.log("hai ");
 	var self =this;
 	this.myquery = ko.observable();
 	this.mylist = ko.observableArray([]);
@@ -61,9 +61,9 @@ var ViewModel = function(){
 
     initialPlaces.places.forEach(function(placeitem){
     	var place=new Place(placeitem);
-    	// self.placeList.push(place);
-    	self.addObjects(place);  
-    	console.log("inside initial push");
+    	self.placeList.push(place);
+    	// self.addObjects(place);  
+    	// console.log("inside initial push");
     	createMarker(place);
     	// self.addItems(place.name);
     	self.mylist.push(place.name);
@@ -87,7 +87,7 @@ var ViewModel = function(){
 		// console.log("filer results");
 		// console.log(this.myquery());
 		if(this.myquery()){
-			console.log("inside filter");
+			// console.log("inside filter");
 			performSearch();
 		}
 	}

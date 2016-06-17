@@ -1,7 +1,7 @@
 // var locations=['mumbai','delhi','kochi','chennai'];
 // global map variable
 var map;
-console.log("map ");
+// console.log("map ");
 var markers = [];
 //  function initialize gets called when page gets loaded
 //new york coordinates -40.7128° N, 74.0059°
@@ -20,12 +20,12 @@ var CLIENT_SECRET = "WHVNHIRBFRTG20FQEITL2GAB1WFSXSAUEGA00ZHIBA5U4L1B";
 // perform search is called
 
 function initMap() {
-    console.log("init map calle");
+    // console.log("init map calle");
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: myLatLng,
         zoom: 12
     });
-    console.log("map created");
+    // console.log("map created");
 /*    var marker = new google.maps.Marker({
         position: myLatLng,
         map: map
@@ -41,15 +41,15 @@ function initMap() {
 // note that every object creationin map c lass takes options as arguments
 // pushes marker into markers arry
 function createMarker(place) {
-    var lat= place.lat();
-    console.log(lat);
+    // var lat= place.lat();
+    // console.log(lat);
     var mycor = new google.maps.LatLng(place.lat(),place.lng());
     // console.log(mycor);
     var marker = new google.maps.Marker({
         position: mycor,
         map : map
     });
-    console.log("marker created");
+    // console.log("marker created");
     // console.log(marker);
     markers.push(marker);
 
@@ -63,11 +63,11 @@ function createMarker(place) {
             url: foursquare_url,
             dataType: "json",
             success: function(data) {
-                console.log(data.response.venues[0].name);
+/*                console.log(data.response.venues[0].name);
                 console.log(data.response.venues[0].location.address);
                 console.log(data.response.venues[0].location.city);
                 console.log(data.response.venues[0]);
-                contentString = '<h3>' + data.response.venues[0].name + '</h3>' +
+*/                contentString = '<h3>' + data.response.venues[0].name + '</h3>' +
                     '<h4>' + data.response.venues[0].location.address + '</h4> ' +
                     '<h4>' + data.response.venues[0].location.city + '</h4>';
                 console.log(contentString);
