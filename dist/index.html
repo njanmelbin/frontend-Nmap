@@ -9,15 +9,26 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class = "row">
+			<header class = "row">
+				<div class="col-xs-12">
+                     <h1> Neighbourhood Map</h1>
+                     <h3> New York</h3>
+				</div>
+			</header>
+			<div class="row">
+				<div class="col-xs-12">
+					<hr>
+				</div>
+			</div>
+			<section class = "row">
 			    <div class="col-xs-8 ">
 					<input class="form-control" data-bind="value: myquery">
 				</div>
 				<div class="col-xs-4">
 					<button type="button" class="btn btn-primary" data-bind="click:filter">Filter</button>
 				</div>
-			</div>
-			<div class="row">
+			</section>
+			<section class="row">
 				<div class="col-xs-12 col-sm-4">
 					<h2>List view</h2>
 					<ul data-bind="foreach:mylist">
@@ -25,7 +36,15 @@
 					</ul>
 				</div>
 				<div class="col-xs-12 col-sm-8 " id="map-canvas">Map</div>
-			</div>
+			</section>
+			<footer class="row">
+			     <div class="col-xs-12">
+					<blockquote class="blockquote-reverse">
+  						<p>Developed by Melbin Thomas</p>
+  						<footer> <cite title="Source Title">njanmelbin@gmail.com</cite></footer>
+					</blockquote>
+			     </div>
+			</footer>
 		</div>
 	<script src="js/jquery-min.js"></script>
 	<script src="js/knockout.js"></script>
