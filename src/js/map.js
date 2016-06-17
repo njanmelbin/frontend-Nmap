@@ -11,7 +11,7 @@ var myLatLng = {
     lng: -74.0059
 
 };
-
+var MyVM;
 //Foursquare API uses this
 var CLIENT_ID = "N0SQW20V1HZLIJ0SGCBP132CIEC55HKDR4KCX1LJ4U5YE3Q2";
 var CLIENT_SECRET = "WHVNHIRBFRTG20FQEITL2GAB1WFSXSAUEGA00ZHIBA5U4L1B";
@@ -23,36 +23,39 @@ function initMap() {
     console.log("init map calle");
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: myLatLng,
-        zoom: 13
+        zoom: 12
     });
-    var marker = new google.maps.Marker({
+    console.log("map created");
+/*    var marker = new google.maps.Marker({
         position: myLatLng,
         map: map
     });
-
+*/
     services = new google.maps.places.PlacesService(map);
-    console.log("map created");
-    // google.maps.event.addListenerOnce(map, 'bounds_changed', performSearch);
+    MyVM = new ViewModel();
+    ko.applyBindings(MyVM);
+    // google.maps.event.addListenerOnce(map, 'bounds_changed', appstart);
 }
 // a map marker gets created for a given lattitude and longitude
 // a infowindow is attached to the map marker
 // note that every object creationin map c lass takes options as arguments
 // pushes marker into markers arry
 function createMarker(place) {
-
-    var mycor = new google.maps.LatLng(40.715813,-73.839638);
-    console.log(mycor);
+    var lat= place.lat();
+    console.log(lat);
+    var mycor = new google.maps.LatLng(place.lat(),place.lng());
+    // console.log(mycor);
     var marker = new google.maps.Marker({
         position: mycor,
         map : map
     });
     console.log("marker created");
-    console.log(marker);
+    // console.log(marker);
     markers.push(marker);
 
     //url for contacting the foursquare API  
     var foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.lat() + ',' + place.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
-    console.log(foursquare_url);
+    // console.log(foursquare_url);
     var contentString;
     google.maps.event.addListener(marker, 'click', function() {
 
@@ -118,7 +121,7 @@ function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
             MyVM.addItems(results[i].name);
-            MyVM.addObjects(resulst[i]);
+            MyVM.addObjects(results[i]);
         }
     }
 }
