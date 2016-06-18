@@ -2,17 +2,14 @@
 
 ##Run the app
 
-* look at bower.json to see the dependencies used
-* install bower and its dependencies
-* run gulp in git
-* browser will load automatically.
+*install the dependencies shown in bower.json file in src directory
+*run index.html in src directory
 
-##Gulp file
 
-####Plugins used
-  browserSync
-  
-* watch task watches for any changes in html file in src directory
-* if there is a change ,then copy task is called
-* copy task copies html files from src to dist
-* Since html file at dist changes watch task defined in serve task reloads the browser
+##Tools used
+*Bower
+*Gulp
+
+##Frameworks used
+*Bootstrap
+*Knockout
