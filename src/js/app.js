@@ -1,47 +1,68 @@
-
+ 
 var initialPlaces = {
 	"places":
 	[{
-		"geometry" : {
-			"location" :{
-				"lat" : function(){return "40.715813"},
-				"lng" : function(){return "-74.009433"}
-			} 	
-		},
-		"name" : "Acappella"
+		
+		"location" :{
+				"lat" : "40.7127047",
+				"lng" : "-74.0058663",
+				"formattedAddress" : ['723 (Btwn w 23rd & 24th Street)','New York, NY 10010']				
+		}, 	
+		"name" : "Halal Food Cart",
+		"categories" :[{
+			"name" : "Indian Restaurant",
+			"pluralName" : "Indian Restaurants"
+
+		}]
 	},{
-		"geometry" : {
-			"location" :{
-				"lat" : function(){return "40.798033"},
-				"lng" : function(){return "-73.968941"}
-			} 	
-		},
-		"name" : "BroadWay Restaurant"
-	},{
-		"geometry" : {
-			"location" :{
-				"lat" : function(){return "40.745875"},
-				"lng" : function(){return "-73.993713"}
-			} 	
-		},
-		"name" : "B&B Restaurant Corp"
+		"location" :{
+				"lat" : "40.716134",
+				"lng" : "-74.007316",
+				"formattedAddress" : ['"190 Church St"','"New York, NY 10013"']				
+		}, 	
+		"name" : "Graffiti Earth",
+		"categories" :[{
+			"name" : "Indian Restaurant",
+			"pluralName" : "Indian Restaurants"
+
+		}]
 
 	},{
-		"geometry" : {
-			"location" :{
-				"lat" : function(){return "40.761693"},
-				"lng" : function(){return "-73.981881"}
-			} 	
-		},
-		"name" : "Le Bernadrin"
+		"location" :{
+				"lat" : "40.716610714191454",
+				"lng" : "-74.01460867595348",
+				"formattedAddress" : ['New York, NY 10038','United States']				
+		}, 	
+		"name" : "29. Private Kitchen",
+		"categories" :[{
+			"name" : "Indian Restaurant",
+			"pluralName" : "Indian Restaurants"
+
+		}]
+
 	},{
-		"geometry" : {
-			"location" :{
-				"lat" : function(){return "40.764967"},
-				"lng" : function(){return "-73.979424 "}
-			} 	
-		},
-		"name" : "Russian Tea Room"
+		"location" :{
+				"lat" : "40.715191908398225",
+				"lng" : "-74.01120185852051",
+				"formattedAddress" : ['65 W Broadway','New York, NY 10007']				
+		}, 	
+		"name" : "Bangal Curry",
+		"categories" :[{
+			"name" : "Indian Restaurant",
+			"pluralName" : "Indian Restaurants"
+		}]
+
+	},{
+		"location" :{
+				"lat" : "40.715614",
+				"lng" : "-74.007545",
+				"formattedAddress" : ['176 Church Street (between Duane and Reade Streets)','New York, NY']				
+		}, 	
+		"name" : "Baluchi's Kitchen",
+		"categories" :[{
+			"name" : "Indian Restaurant",
+			"pluralName" : "Indian Restaurants"
+		}]
 
 	}]
 }
@@ -50,6 +71,7 @@ var Place = function(data){
    this.lat = ko.observable(data.location.lat);
    this.lng = ko.observable(data.location.lng);
    this.categoryName = ko.observable(data.categories[0].name.toLowerCase());
+   this.pluralName = ko.observable(data.categories[0].pluralName.toLowerCase());
    this.name = ko.observable(data.name);
    var mycor = new google.maps.LatLng(this.lat(),this.lng());
     // console.log(mycor);
@@ -64,8 +86,11 @@ var Place = function(data){
    var infowindow = new google.maps.InfoWindow({
    		content : contentString
    })
+   google.maps.event.addListener(marker, 'click', function() {
+   		infowindow.open(map,marker);
+   });
    this.infowindow = ko.observable(infowindow);
-   console.log(this.infowindow());
+   // console.log(this.infowindow());
     // console.log(this.marker());
     // console.log("marker created");
     // console.log(marker);
@@ -108,6 +133,11 @@ var ViewModel = function(){
 
     this.initialise = function(){
     	performSearch();
+    	initialPlaces.places.forEach(function(data){
+    		var place = new Place(data);
+    		self.placeList.push(place);
+    		self.mylist.push(place);
+    	});
     }
 // when u type in new filter to search for and click filter button ,this function calls performSearch to search for keyword u typed
 	this.filter = function(){
@@ -116,7 +146,7 @@ var ViewModel = function(){
 			// console.log(obj.categoryName());
 			// console.log(self.myquery().toLowerCase());
 		self.placeList().forEach(function(obj){
-			if(self.myquery().toLowerCase()===obj.categoryName()){
+			if(self.myquery().toLowerCase()===obj.categoryName()|| self.myquery().toLowerCase()===obj.pluralName()){
 				obj.marker().setVisible(true);
 				self.mylist.push(obj);
 			}
@@ -182,8 +212,8 @@ var ViewModel = function(){
 	this.itemClicked =function(obj){
 		// console.log("hi");
 		// console.log(index);
-		console.log(obj);
-		console.log(obj.infowindow());
+		// console.log(obj);
+		// console.log(obj.infowindow());
 		obj.infowindow().open(map,obj.marker());
 
 	}

@@ -117,6 +117,8 @@ function performSearch() {
     // 4bf58dd8d48988d16a941735 - bakery
     // 4bf58dd8d48988d1e0931735 -coffe shop
        // 56aa371ce4b08b9a8d57356c-beer bar
+    //4bf58dd8d48988d10f941735-indian restaurant
+
     foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=40.7128,-74.0059'+
     '&categoryId=4bf58dd8d48988d16a941735,4bf58dd8d48988d1e0931735,4bf58dd8d48988d163941735&radius=800'+
     '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
