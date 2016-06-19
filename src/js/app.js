@@ -58,10 +58,18 @@ var Place = function(data){
         map : map
     });
    this.marker = ko.observable(marker);
+   var contentString = '<h3>'+ data.name +'</h3>'+
+   						'<h4>'+ data.location.formattedAddress[0] +'</h4>'+
+   						'<h4>'+ data.location.formattedAddress[1] +'</h4>';
+   var infowindow = new google.maps.InfoWindow({
+   		content : contentString
+   })
+   this.infowindow = ko.observable(infowindow);
+   console.log(this.infowindow());
     // console.log(this.marker());
     // console.log("marker created");
     // console.log(marker);
-    console.log(this.categoryName());
+    // console.log(this.categoryName());
 
    // console.log(data);
    // console.log(this.lat());
@@ -89,6 +97,7 @@ var ViewModel = function(){
     	// console.log("inside addobj");
     	var place = new Place(data);
     	self.placeList.push(place);
+    	self.mylist.push(place);
     	// createMarker(place);
     }
    // creates the list with names
@@ -102,11 +111,14 @@ var ViewModel = function(){
     }
 // when u type in new filter to search for and click filter button ,this function calls performSearch to search for keyword u typed
 	this.filter = function(){
-		ko.utils.arrayForEach(this.placeList(),function(obj){
+		self.mylist.removeAll();
+		// ko.utils.arrayForEach(this.placeList(),function(obj){
 			// console.log(obj.categoryName());
 			// console.log(self.myquery().toLowerCase());
+		self.placeList().forEach(function(obj){
 			if(self.myquery().toLowerCase()===obj.categoryName()){
 				obj.marker().setVisible(true);
+				self.mylist.push(obj);
 			}
 			else{
 				obj.marker().setVisible(false);
@@ -167,10 +179,12 @@ var ViewModel = function(){
 */
 	}
 
-	this.itemClicked =function(index){
+	this.itemClicked =function(obj){
 		// console.log("hi");
 		// console.log(index);
-		google.maps.event.trigger(markers[index],'click');
+		console.log(obj);
+		console.log(obj.infowindow());
+		obj.infowindow().open(map,obj.marker());
 
 	}
 };
