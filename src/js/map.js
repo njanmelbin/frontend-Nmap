@@ -2,7 +2,7 @@
 // global map variable
 var map;
 // console.log("map ");
-var markers = [];
+// var markers = [];
 //  function initialize gets called when page gets loaded
 //new york coordinates -40.7128° N, 74.0059°
 var infowindow;
@@ -23,7 +23,7 @@ function initMap() {
     // console.log("init map calle");
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: myLatLng,
-        zoom: 12
+        zoom: 15
     });
     // console.log("map created");
 /*    var marker = new google.maps.Marker({
@@ -34,72 +34,73 @@ function initMap() {
     services = new google.maps.places.PlacesService(map);
     MyVM = new ViewModel();
     ko.applyBindings(MyVM);
+    MyVM.initialise();
     // google.maps.event.addListenerOnce(map, 'bounds_changed', appstart);
 }
 // a map marker gets created for a given lattitude and longitude
 // a infowindow is attached to the map marker
 // note that every object creationin map c lass takes options as arguments
 // pushes marker into markers arry
-function createMarker(place) {
-    // var lat= place.lat();
-    // console.log(lat);
-    var mycor = new google.maps.LatLng(place.lat(),place.lng());
-    // console.log(mycor);
-    var marker = new google.maps.Marker({
-        position: mycor,
-        map : map
-    });
-    // console.log("marker created");
-    // console.log(marker);
-    markers.push(marker);
+// function createMarker(place) {
+//     var lat= place.lat();
+//     console.log(lat);
+//     var mycor = new google.maps.LatLng(place.lat(),place.lng());
+//     // console.log(mycor);
+//     var marker = new google.maps.Marker({
+//         position: mycor,
+//         map : map
+//     });
+//     // console.log("marker created");
+//     // console.log(marker);
+//     markers.push(marker);
 
-    //url for contacting the foursquare API  
-    foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.lat() + ',' + place.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
-    // console.log(foursquare_url);
-    var contentString;
-    google.maps.event.addListener(marker, 'click', function() {
+//     //url for contacting the foursquare API  
+//     // foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.lat() + ',' + place.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
+//     // // console.log(foursquare_url);
+//     // var contentString;
+//     // google.maps.event.addListener(marker, 'click', function() {
 
-        $.ajax({
-            url: foursquare_url,
-            dataType: "json",
-            success: function(data) {
-/*                console.log(data.response.venues[0].name);
-                console.log(data.response.venues[0].location.address);
-                console.log(data.response.venues[0].location.city);
-                console.log(data.response.venues[0]);
-*/                contentString = '<h3>' + data.response.venues[0].name + '</h3>' +
-                    '<h4>' + data.response.venues[0].location.address + '</h4> ' +
-                    '<h4>' + data.response.venues[0].location.city + '</h4>';
-                console.log(contentString);
-                infowindow = new google.maps.InfoWindow({
-                    content: contentString
-                });
-                infowindow.open(map, marker);
+//     //     $.ajax({
+//     //         url: foursquare_url,
+//     //         dataType: "json",
+//     //         success: function(data) {
+//     //             console.log(data.response.venues[0].name);
+//     //             console.log(data.response.venues[0].location.address);
+//     //             console.log(data.response.venues[0].location.city);
+//     //             console.log(data.response.venues[0]);
+//     //             contentString = '<h3>' + data.response.venues[0].name + '</h3>' +
+//     //                 '<h4>' + data.response.venues[0].location.address + '</h4> ' +
+//     //                 '<h4>' + data.response.venues[0].location.city + '</h4>';
+//     //             console.log(contentString);
+//     //             infowindow = new google.maps.InfoWindow({
+//     //                 content: contentString
+//     //             });
+//     //             infowindow.open(map, marker);
 
 
-            },
-            error : function(){
-                alert("Not able to reach Foursquare API");
-            }
-        });
-        // console.log(contentString);
+//     //         },
+//     //         error : function(){
+//     //             alert("Not able to reach Foursquare API");
+//     //         }
+//     //     });
+//         // console.log(contentString);
 
-        // console.log(place.name);
-    });
-}
+//         // console.log(place.name);
+//     // });
+// }
 
-// function to delete all Markers
+// // function to delete all Markers
 
-function DeleteMarkers() {
-    console.log("delete markers");
-    //Loop through all the markers and remove
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    markers = [];
-};
+// function DeleteMarkers() {
+//     console.log("delete markers");
+//     //Loop through all the markers and remove
+//     for (var i = 0; i < markers.length; i++) {
+//         markers[i].setMap(null);
+//     }
+//     markers = [];
+// };
 
-//function to filter the results
+ //function to filter the results
 
 function performSearch() {
     // DeleteMarkers();
@@ -113,9 +114,13 @@ function performSearch() {
     // services.nearbySearch(request, callback);
         // lat: 40.7128,
     // lng: -74.0059
+    // 4bf58dd8d48988d16a941735 - bakery
+    // 4bf58dd8d48988d1e0931735 -coffe shop
+       // 56aa371ce4b08b9a8d57356c-beer bar
+    //4bf58dd8d48988d10f941735-indian restaurant
 
     foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=40.7128,-74.0059'+
-    '&categoryId=4d4b7105d754a06374d81259'+
+    '&categoryId=4bf58dd8d48988d16a941735,4bf58dd8d48988d1e0931735,4bf58dd8d48988d163941735&radius=800'+
     '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
    /* var settings ={
         url : foursquare_url,
@@ -124,7 +129,13 @@ function performSearch() {
     }*/
     $.ajax(foursquare_url)
         .done(function(data){
+            // data.response.venues.forEach()
             console.log(data);
+            data.response.venues.forEach(function(obj){
+                // console.log(obj);
+                MyVM.addObjects(obj);
+                // console.log("additem called");
+            });
         })
         .fail(function(){
             alert("request failed");
@@ -133,15 +144,15 @@ function performSearch() {
 
 // function to call on retrieval of results
 
-function callback(results, status) {
-    console.log(results);
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-            MyVM.addItems(results[i].name);
-            MyVM.addObjects(results[i]);
-        }
-    }
-}
+// function callback(results, status) {
+//     console.log(results);
+//     if (status == google.maps.places.PlacesServiceStatus.OK) {
+//         for (var i = 0; i < results.length; i++) {
+//             MyVM.addItems(results[i].name);
+//             MyVM.addObjects(results[i]);
+//         }
+//     }
+// }
 
 function onError(){
     alert("map not loaded");
