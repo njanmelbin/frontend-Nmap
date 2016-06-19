@@ -15,7 +15,7 @@ var MyVM;
 //Foursquare API uses this
 var CLIENT_ID = "N0SQW20V1HZLIJ0SGCBP132CIEC55HKDR4KCX1LJ4U5YE3Q2";
 var CLIENT_SECRET = "WHVNHIRBFRTG20FQEITL2GAB1WFSXSAUEGA00ZHIBA5U4L1B";
-
+var foursquare_url;
 // function creates a map centered at given latitude and longitude
 // perform search is called
 
@@ -54,7 +54,7 @@ function createMarker(place) {
     markers.push(marker);
 
     //url for contacting the foursquare API  
-    var foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.lat() + ',' + place.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
+    foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=' + place.lat() + ',' + place.lng() + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
     // console.log(foursquare_url);
     var contentString;
     google.maps.event.addListener(marker, 'click', function() {
@@ -102,16 +102,33 @@ function DeleteMarkers() {
 //function to filter the results
 
 function performSearch() {
-    DeleteMarkers();
+    // DeleteMarkers();
     console.log("perform search");
     // console.log(data);
-    var request = {
-        bounds: map.getBounds(),
-        name: MyVM.myquery()
-    }
-    console.log(MyVM.myquery());
-    services.nearbySearch(request, callback);
+    // var request = {
+    //     bounds: map.getBounds(),
+    //     name: MyVM.myquery()
+    // }
+    // console.log(MyVM.myquery());
+    // services.nearbySearch(request, callback);
+        // lat: 40.7128,
+    // lng: -74.0059
 
+    foursquare_url = 'https://api.foursquare.com/v2/venues/search?ll=40.7128,-74.0059'+
+    '&categoryId=4d4b7105d754a06374d81259'+
+    '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20130815';
+   /* var settings ={
+        url : foursquare_url,
+        dataType :"json",
+        categoryId : '4d4b7105d754a06374d81259,4bf58dd8d48988d115951735'
+    }*/
+    $.ajax(foursquare_url)
+        .done(function(data){
+            console.log(data);
+        })
+        .fail(function(){
+            alert("request failed");
+        });
 }
 
 // function to call on retrieval of results
@@ -126,5 +143,8 @@ function callback(results, status) {
     }
 }
 
+function onError(){
+    alert("map not loaded");
+}
 // after the DOM is loaded initMap gets called
-window.addEventListener('load', initMap);
+// window.addEventListener('load', initMap);

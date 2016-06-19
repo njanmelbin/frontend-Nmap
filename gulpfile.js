@@ -7,7 +7,9 @@ var gulp = require('gulp'),
 gulp.task('scripts',function(){
 	gulp.src('src/js/*.js')
 		.pipe(concat('all.js'))
-		.pipe(uglify())
+		.pipe(uglify().on('error', function(e){
+            console.log(e);
+         }))
 		.pipe(rename('app.min.js'))
 		.pipe(gulp.dest('dist/js/'));
 });
@@ -22,7 +24,7 @@ gulp.task('copy',function(){
 // ============================================
 
 // js-watch reloads the browser with js changes
-gulp.task('js-watch',['scripts'],function(){
+gulp.task('js-watch',function(){
 	browserSync.reload();
 });
 
@@ -51,4 +53,4 @@ gulp.watch('src/js/*.js',['js-watch']);
 
 });
 
-gulp.task('default',['serve','scripts']);
+gulp.task('default',['serve']);
