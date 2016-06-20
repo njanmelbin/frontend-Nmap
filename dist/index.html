@@ -31,10 +31,10 @@
 			</section>
 			<section class="row">
 				<div class="col-xs-12 col-sm-4">
-					<h2>List view</h2>
-					<ul data-bind="foreach:mylist">
-						<li data-bind="text:name,click:$parent.itemClicked"></li>
-					</ul>
+					<h2 >List view</h2>
+					<div class="list-group" data-bind="foreach:mylist">
+						<a href="#" class="list-group-item" data-bind="text:name,click:$parent.itemClicked"></a>
+					</div>
 				</div>
 					<div style="margin-top:20px" class="col-xs-12 col-sm-8 " id="map-canvas">Map</div>
 			</section>
@@ -47,10 +47,9 @@
 			     </div>
 			</footer>
 		</div>
-	<script src="js/jquery-min.js"></script>
-	<script src="js/knockout.js"></script>
-	<script src="js/map.js"></script>
-    <script async src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" onerror="googleError()""></script>
-	<script src="js/app.js"></script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/knockout/dist/knockout.js"></script>
+<script src="js/app.min.js"></script>
+	<script async src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" onerror="googleError()""></script>
 	</body>
 </html>

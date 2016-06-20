@@ -1,11 +1,19 @@
 var gulp = require('gulp'),
-	browserSync= require('browser-sync').create();
-	uglify= require('gulp-uglify');    
-	rename = require('gulp-rename');
-	concat= require('gulp-concat');
+	browserSync= require('browser-sync').create(),
+	uglify= require('gulp-uglify'),    
+	useref = require('gulp-useref'),
+	gulpif = require('gulp-if');
 
-gulp.task('scripts',function(){
-	gulp.src('src/js/*.js')
+
+gulp.task('html',function(){
+	gulp.src('src/index.html')
+		.pipe(useref())
+		.pipe(gulpif('*.js',uglify()))
+		.pipe(gulp.dest('dist'));
+});	
+
+/*gulp.task('scripts',function(){
+	gulp.src(['src/js/map.js','src/js/app.js'])
 		.pipe(concat('all.js'))
 		.pipe(uglify().on('error', function(e){
             console.log(e);
@@ -13,23 +21,17 @@ gulp.task('scripts',function(){
 		.pipe(rename('app.min.js'))
 		.pipe(gulp.dest('dist/js/'));
 });
-
-gulp.task('copy',function(){
-		gulp.src('src/*.html')
-			.pipe(gulp.dest('dist/'));
-});
-
-
+*/
 //  add any files to reload
 // ============================================
 
 // js-watch reloads the browser with js changes
-gulp.task('js-watch',function(){
+gulp.task('js-watch',['scripts'],function(){
 	browserSync.reload();
 });
 
 // waits for copy task to finish
-gulp.task('html-watch',['copy'],function(){
+gulp.task('html-watch',['html'],function(){
 	browserSync.reload();
 });
 // ===========================================
@@ -53,4 +55,4 @@ gulp.watch('src/js/*.js',['js-watch']);
 
 });
 
-gulp.task('default',['serve']);
+gulp.task('default',['serve','html']);
