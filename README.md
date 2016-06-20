@@ -1,6 +1,6 @@
 # frontend-neighbourhood-map
 This is a neighbourhood map of new york
-You can search for restauants ,bars,coffee shops in new york area
+You can search for indian restauants ,bakeries,coffee shops,parks in new york area
 
 ##Run the app
 
