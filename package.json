@@ -1,0 +1,30 @@
+{
+  "name": "map",
+  "version": "1.0.0",
+  "description": "* look at bower.json to see the dependencies used\r * install bower and its dependencies\r * run gulp in git\r * browser will load automatically.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "browser-sync": "^2.13.0",
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1"
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.1",
+    "gulp-uglify": "^1.5.3",
+    "gulp-useref": "^3.1.0"   
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/njanmelbin/frontend-neighbourhood-map.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/njanmelbin/frontend-neighbourhood-map/issues"
+  },
+  "homepage": "https://github.com/njanmelbin/frontend-neighbourhood-map#readme"
+}

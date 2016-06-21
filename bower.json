@@ -1,0 +1,9 @@
+{
+  "name": "map",
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  },
+  "devDependencies": {
+    "knockout": "^3.4.0"
+  }
+}

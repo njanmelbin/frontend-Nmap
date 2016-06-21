@@ -40,7 +40,12 @@ gulp.task('html-watch',['html'],function(){
 // ===========================================
 gulp.task('serve',function(){
 	browserSync.init({
-        server: "./src"
+        server: {
+        		baseDir :"src",
+        		routes:{
+        			"/bower_components" : "bower_components"
+        		}
+        }
     });
 // =========================================
 
