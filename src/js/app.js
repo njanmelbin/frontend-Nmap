@@ -1,5 +1,4 @@
- 
-var initialPlaces = {
+ var initialPlaces = {
 	"places": [{
 
 		"location": {
@@ -67,6 +66,7 @@ var initialPlaces = {
 }
 
 var Place = function(data) {
+    var self = this;
     this.lat = ko.observable(data.location.lat);
     this.lng = ko.observable(data.location.lng);
     this.categoryName = ko.observable(data.categories[0].name.toLowerCase());
@@ -81,17 +81,12 @@ var Place = function(data) {
     var contentString = '<h3>' + data.name + '</h3>' +
         '<h4>' + data.location.formattedAddress[0] + '</h4>' +
         '<h4>' + data.location.formattedAddress[1] + '</h4>';
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
+    this.contentString = ko.observable(contentString);
     google.maps.event.addListener(marker, 'click', function() {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-        infowindow.open(map, marker);
+        MyVM.itemClicked(self);
     });
 
-    google.maps.event.addListener(infowindow, 'closeclick', function() {
-        marker.setAnimation(null);
-    });
+
 };
 
 var ViewModel = function() {
@@ -122,7 +117,6 @@ var ViewModel = function() {
     this.filteredresult = ko.computed(function(){
         self.mylist.removeAll();
         var search = self.myquery().toLowerCase();
-        // console.log(search);
         self.placeList().forEach(function(place){
             var str = place.name().toLowerCase();
             if (search === place.categoryName() || search === place.pluralName()) {
@@ -130,7 +124,6 @@ var ViewModel = function() {
                 self.mylist.push(place);
             } 
             else if(str.indexOf(search)!==-1){
-                // console.log(str);
                 self.mylist.push(place);
                 place.marker().setVisible(true);
             }
@@ -156,8 +149,24 @@ var ViewModel = function() {
     	for the corresponding object marker
     	@param object
     */
+    var infowindow;
     this.itemClicked = function(obj) {
-        google.maps.event.trigger(obj.marker(), 'click');
+    if(infowindow){
+        infowindow.close();
+    }
+    infowindow = new google.maps.InfoWindow({
+        content: obj.contentString()
+    });
+    obj.marker().setAnimation(google.maps.Animation.BOUNCE);
+    infowindow.open(map, obj.marker());
+
+    window.setTimeout(clearAnimation,2000);
+    function clearAnimation(){
+        obj.marker().setAnimation(null);
+    }
+    google.maps.event.addListener(infowindow, 'closeclick', function() {
+        obj.marker().setAnimation(null);
+    });
 
     };
 };
