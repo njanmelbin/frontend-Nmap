@@ -97,7 +97,7 @@ var Place = function(data) {
 var ViewModel = function() {
 	
     var self = this;
-    this.myquery = ko.observable();
+    this.myquery = ko.observable('');
     this.mylist = ko.observableArray([]);
     this.placeList = ko.observableArray([]);
 
@@ -110,8 +110,35 @@ var ViewModel = function() {
     this.addObjects = function(data) {
         var place = new Place(data);
         self.placeList.push(place);
-        self.mylist.push(place);
+        // self.mylist.push(place);
     };
+
+    /*  when u type in new filter to search for ,
+        this  search for keyword u typed
+        forms a subset of filtered locations in the mylist observable array
+    */
+
+
+    this.filteredresult = ko.computed(function(){
+        self.mylist.removeAll();
+        var search = self.myquery().toLowerCase();
+        // console.log(search);
+        self.placeList().forEach(function(place){
+            var str = place.name().toLowerCase();
+            if (search === place.categoryName() || search === place.pluralName()) {
+                place.marker().setVisible(true);
+                self.mylist.push(place);
+            } 
+            else if(str.indexOf(search)!==-1){
+                // console.log(str);
+                self.mylist.push(place);
+                place.marker().setVisible(true);
+            }
+            else{
+                place.marker().setVisible(false);
+            }
+        });
+    },this);
 
     /*    initalises the observable array with values obtained from API request and hard-coded values
         performSearch is used to get data from API
@@ -121,26 +148,7 @@ var ViewModel = function() {
         initialPlaces.places.forEach(function(data) {
             var place = new Place(data);
             self.placeList.push(place);
-            self.mylist.push(place);
-        });
-    };
-
-    /* 	when u type in new filter to search for and click filter button ,
-     	this function calls performSearch to search for keyword u typed
-     	forms a subset of filtered locations in the mylist observable array
-    */
-    this.filter = function() {
-        self.mylist.removeAll();
-        if (!self.myquery()) {
-            self.initialise();
-        }
-        self.placeList().forEach(function(obj) {
-            if (self.myquery().toLowerCase() === obj.categoryName() || self.myquery().toLowerCase() === obj.pluralName()) {
-                obj.marker().setVisible(true);
-                self.mylist.push(obj);
-            } else {
-                obj.marker().setVisible(false);
-            }
+            // self.mylist.push(place);
         });
     };
 

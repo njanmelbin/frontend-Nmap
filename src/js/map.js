@@ -51,6 +51,6 @@ function performSearch() {
 
 // called when google maps falis to load
 
-function onError() {
+function googleError() {
     alert("map not loaded");
 }
